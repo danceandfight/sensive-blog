@@ -65,14 +65,14 @@ def post_detail(request, slug):
         "text": post.text,
         "author": post.author.username,
         "comments": serialized_comments,
-        'likes_amount': len(likes),
+        'likes_amount': likes.count(),
         "image_url": post.image.url if post.image else None,
         "published_at": post.published_at,
         "slug": post.slug,
         "tags": [serialize_tag(tag) for tag in related_tags],
     }
     
-    most_popular_tags = Tag.objects.popular()[0:5]
+    most_popular_tags = Tag.objects.popular()[:5]
 
     
     most_popular_posts = Post.objects.popular() \
