@@ -41,7 +41,7 @@ class Post(models.Model):
     image = models.ImageField("Картинка")
     published_at = models.DateTimeField("Дата и время публикации")
 
-    author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Автор", limit_choices_to={'is_staff': True})
+    author = models.ForeignKey(User, related_name='author_posts', on_delete=models.CASCADE, verbose_name="Автор", limit_choices_to={'is_staff': True})
     likes = models.ManyToManyField(User, related_name="liked_posts", verbose_name="Кто лайкнул", blank=True)
     tags = models.ManyToManyField("Tag", related_name="posts", verbose_name="Теги")
 
@@ -79,7 +79,7 @@ class Tag(models.Model):
 
 class Comment(models.Model):
     post = models.ForeignKey("Post", related_name="comments", on_delete=models.CASCADE, verbose_name="Пост, к которому написан")
-    author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Автор")
+    author = models.ForeignKey(User, related_name="author_comments", on_delete=models.CASCADE, verbose_name="Автор")
 
     text = models.TextField("Текст комментария")
     published_at = models.DateTimeField("Дата и время публикации")
